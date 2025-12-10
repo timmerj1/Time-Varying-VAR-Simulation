@@ -19,3 +19,5 @@ G <- GenerateGraph(n_parameters = 10,
 Data1000 <- VARData(G$G, matrix(0, 1000, 10), 1, seed = 67)
 
 save(Data1000, file = "Data1000.Rdata")
+
+
