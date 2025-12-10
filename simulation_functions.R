@@ -22,12 +22,12 @@ GenerateGraph <- function(n_parameters,
   edgetypes[[2]] <- seq(0, theta, length = N) # Edge 2: Linear Increase
   edgetypes[[3]] <- seq(theta, 0, length = N) # Edge 3: Linear Decrease
   # Edge 4: Fast Sine
-  edgetypes[[4]] <- theta * (sin((2/5) * base::pi * 0:N) / 2 + 0.5)
+  edgetypes[[4]] <- theta * (sin((2/5) * base::pi * 1:N) / 2 + 0.5)
   # Edge 5: Slow Sine
-  edgetypes[[5]] <- theta * (sin((2/1825) * base::pi * 0:N) / 2 + 0.5)
+  edgetypes[[5]] <- theta * (sin((2/1825) * base::pi * 1:N) / 2 + 0.5)
   # Edge 6: Slow + Fast Sine
   edgetypes[[6]] <- theta *
-    ((sin((2/5) * base::pi * x) + sin((2/1825) * base::pi * 0:N)) / 4 + 0.5)
+    ((sin((2/5) * base::pi * x) + sin((2/1825) * base::pi * 1:N)) / 4 + 0.5)
 
 
 
