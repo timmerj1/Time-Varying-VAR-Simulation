@@ -20,7 +20,7 @@ library(qgraph)
 
 
 # estimate tvGAM
-tvgam_obj200 <- tvvarGAM(data = data200, nb = 25, scale = TRUE)
+tvgam_obj200 <- tvvarGAM(data = data200, nb = 20, scale = TRUE)
 tvgam_obj500 <- tvvarGAM(data = data500, nb = 20, scale = TRUE)
 tvgam_obj1000 <- tvvarGAM(data = data1000, nb = 20, scale = TRUE)
 tvgam_obj2000 <- tvvarGAM(data = data2000, nb = 20, scale = TRUE)
