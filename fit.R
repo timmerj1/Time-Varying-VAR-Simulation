@@ -38,6 +38,10 @@ mod200 <- graphicalVAR(data200, gamma = 0.5)
 mod500 <- graphicalVAR(data500, gamma = 0.5)
 mod1000 <- graphicalVAR(data1000, gamma = 0.5)
 mod2000 <- graphicalVAR(data2000, gamma = 0.5)
+PDC200 <- mod200$PDC
+PCC200 <- mod200$PCC
+avg_layout <- averageLayout(PDC200, PCC200)  # get layout
+
 
 # plot
 # Save GLM plots to github
@@ -62,7 +66,7 @@ for (n in names(models_graphicalVAR)) {
 
   qgraph(
     PDC,
-    layout = layout,
+    layout = avg_layout,
     title = paste0("Temporal Network (lag-1), N = ", n)
   )
 
@@ -100,19 +104,15 @@ max(all_edf2000)
 
 
 
-
 # ---------- plot GAM2000 ------------
 timeL <- dim(tvgam_obj2000$Results_GAM$Estimate)[3]
-wadj_point <- tvgam_obj2000$Results_GAM$Estimate[-1, , ]
-
 
 # scale to 20 time points
-ind_thin <- round(seq(1, timeL, length = 20))
-wadj_point <- tvgam_obj2000$Results_GAM$Estimate[-1, , ind_thin]
-wadj_CIlow <- tvgam_obj2000$Results_GAM$CI_low[-1, , ind_thin]
-wadj_CIup <- tvgam_obj2000$Results_GAM$CI_high[-1, , ind_thin]
+wadj_point <- tvgam_obj2000$Results_GAM$Estimate[-1, , ]
+wadj_CIlow <- tvgam_obj2000$Results_GAM$CI_low[-1, , ]
+wadj_CIup <- tvgam_obj2000$Results_GAM$CI_high[-1, , ]
 wadj_point_unthresh <- wadj_point
-
+dim(wadj_point_unthresh)[3]
 
 # select significant parameters
 unlist_this <- function(x) { matrix(unlist(x$s.table[-1,4]), 10,1) }
@@ -150,13 +150,13 @@ lo <- layout(lmat,
 
 
 # select 3 time points
-tpSelect <- c(5, 10, 15)
+tpSelect <- c(500, 1000, 1500)
 
 
 # plot network
 for(tp in tpSelect) {
   qgraph(wadj_point_thresh[, , tp],
-         layout = layout,
+         layout = avg_layout,
          vsize = 13,
          esize = 10,
          asize = 10,
@@ -170,8 +170,8 @@ for(tp in tpSelect) {
 # plot some parameter variance over time
 plot.new()
 par(mar = c(4,4,0,1))
-plot.window(xlim=c(1, 20), ylim=c(-.25, .85))
-axis(1, c(1, 5, 10, 15, 20), labels=T)
+plot.window(xlim=c(1, 2000), ylim=c(-.25, .85))
+axis(1, c(1, 500, 1000, 1500, 2000), labels=T)
 axis(2, c(-.25, 0, .25, 0.5, .75), las=2)
 abline(h = 0, col = "grey", lty=2)
 title(xlab = "Estimation points", cex.lab = 1.2)
@@ -194,14 +194,16 @@ for(i in 1:nrow(m_par_display)) {
   par_row <- m_par_display[i, ]
   P1_pointest <- wadj_point_unthresh[par_row[1], par_row[2], ]
   # lines((1:20)+v_jitter[i], P1_pointest, col = cols[i], lwd = 2, lty=i)
-  lines((1:20), P1_pointest, col = cols[i], lwd = 2, lty=i)
+  lines((1:timeL), P1_pointest, col = cols[i], lwd = 2, lty=i)
 
   # Center CI
   CI_low_par <- wadj_CIlow[par_row[1], par_row[2], ]
   CI_up_par <- wadj_CIup[par_row[1], par_row[2], ]
 
-  polygon(x = c(1:20, 20:1), y = c(CI_low_par, rev(CI_up_par)),
-          col=alpha(colour = cols[i], alpha = .3), border=FALSE)
+  polygon(x = c(1:timeL, timeL:1),
+          y = c(CI_low_par, rev(CI_up_par)),
+          col=alpha(colour = cols[i], alpha = .3),
+          border=FALSE)
 
 }
 
@@ -293,7 +295,7 @@ GLM2000 <- Estimate_var_adj(data2000)
 plot_GLM_network <- function(res,
                              sig = TRUE,
                              alpha = 0.05,
-                             layout = "spring",
+                             layout = avg_layout,
                              return_layout = FALSE,
                              title = "GLM Network") {
 
@@ -321,7 +323,7 @@ plot_GLM_network <- function(res,
   # plot
   g <- qgraph(
     B_sig,
-    layout = layout,
+    layout = avg_layout,
     directed = TRUE,
     title = title
   )
@@ -354,7 +356,7 @@ for (n in names(models)) {
 
   plot_GLM_network(
     res = models[[n]],
-    layout = layout,
+    layout = avg_layout,
     title = paste0("GLM Network (", n, ")")
   )
 
@@ -414,7 +416,7 @@ saveRDS(
 # save the plot layput
 saveRDS(
   list(
-    qgraph_layout = layout
+    qgraph_layout = avg_layout
   ),
   file = "results/layouts_GLM200.rds"
 )
