@@ -20,12 +20,6 @@ for (sample in N) {
   print(sum(G_check))
 }
 
-
-
-# G_animate <- saveGIF({for (i in 1:N) {
-#   qgraph(G[[200]]$G[,,i], layout = animation_graph$layout, palette = "colorblind")
-#   }}, movie.name = "TimeVaryingGraph.gif")
-
 Data <- list()
 for (sample in N) {
   Data[[sample]] <- Data1000 <- VARData(G[[sample]]$G, matrix(0, sample, 10), 1, seed = 67)
