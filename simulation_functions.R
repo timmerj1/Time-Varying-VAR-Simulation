@@ -27,7 +27,7 @@ GenerateGraph <- function(n_parameters,
   edgetypes[[5]] <- theta * (sin((2/1825) * base::pi * 1:N) / 2 + 0.5)
   # Edge 6: Slow + Fast Sine
   edgetypes[[6]] <- theta *
-    ((sin((2/5) * base::pi * x) + sin((2/1825) * base::pi * 1:N)) / 4 + 0.5)
+    ((sin((2/5) * base::pi * 1:N) + sin((2/1825) * base::pi * 1:N)) / 4 + 0.5)
 
 
 
