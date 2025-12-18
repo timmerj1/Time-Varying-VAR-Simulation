@@ -1,5 +1,4 @@
 
-library(animation)
 source("simulation_functions.R")
 
 N <- c(200, 500, 1000, 2000)
