@@ -417,7 +417,7 @@ saveRDS(
   list(
     qgraph_layout = avg_layout
   ),
-  file = "results/layouts_GLM200.rds"
+  file = "results/layouts_graphicalVAR200.rds"
 )
 
 
