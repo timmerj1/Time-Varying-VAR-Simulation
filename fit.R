@@ -79,10 +79,10 @@ for (n in names(models_graphicalVAR)) {
 
 #### ----------- tvGAM ---------------
 # estimate tvGAM
-tvgam_obj200 <- tvvarGAM(data = data200, nb = 20, scale = TRUE)
-tvgam_obj500 <- tvvarGAM(data = data500, nb = 20, scale = TRUE)
-tvgam_obj1000 <- tvvarGAM(data = data1000, nb = 20, scale = TRUE)
-tvgam_obj2000 <- tvvarGAM(data = data2000, nb = 20, scale = TRUE)
+tvgam_obj200 <- tvvarGAM(data = data200, nb = 60, scale = TRUE)
+tvgam_obj500 <- tvvarGAM(data = data500, nb = 60, scale = TRUE)
+tvgam_obj1000 <- tvvarGAM(data = data1000, nb = 60, scale = TRUE)
+tvgam_obj2000 <- tvvarGAM(data = data2000, nb = 60, scale = TRUE)
 
 
 # check edf to see if increase nb
@@ -367,13 +367,12 @@ for (n in names(models)) {
 
 
 
-#### ----------- save all the estimation results ------------
+#### ----------- save all the estimation results (Saved to OSF instead of GitHub) ------------
 # save tvvar network estimation results
 saveRDS(tvgam_obj200,  "results/tvvarGAM_200.rds")
 saveRDS(tvgam_obj500,  "results/tvvarGAM_500.rds")
 saveRDS(tvgam_obj1000, "results/tvvarGAM_1000.rds")
 saveRDS(tvgam_obj2000, "results/tvvarGAM_2000.rds")
-
 
 # save all tvvar parameters(for 2000 sample size)
 saveRDS(
