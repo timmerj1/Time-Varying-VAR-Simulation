@@ -131,3 +131,98 @@ VARData <- function(graph,
   return(data)
 
 }
+
+# Parameter Type Plots ----
+
+library(ggplot2)
+library(patchwork)
+
+a <-ggplot(data.frame(x = 0:1825, y = rep(1,1826)), aes(x,y)) +
+  geom_line() +
+  ylim(0,1) +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(a) Constant Nonzero")
+
+b <- ggplot(data.frame(x = 0:1825), aes(x)) +
+  stat_function(
+    fun = function (x) x,
+    n = 2000)  +
+  ylab("\u03B2") +
+  xlab("Time") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(b) Linear Increase")
+
+c <- ggplot(data.frame(x = 0:1825), aes(x)) +
+  stat_function(
+    fun = function (x) -x,
+    n = 2000)  +
+  ylab("\u03B2") +
+  xlab("Time") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(c) Linear Decrease")
+
+d <- ggplot(data.frame(x = 0:1825), aes(x)) +
+  stat_function(
+    fun = function (x) sin((2/1825) * base::pi * x) / 4 + 0.5,
+    n = 2000)  +
+  ylab("\u03B2") +
+  xlab("Time") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(d) Slow Sine")
+
+e <- ggplot(data.frame(x = 0:200), aes(x)) +
+  stat_function(
+    fun = function (x) (sin((2/5) * base::pi * x) / 2 + 0.5),
+    n = 1000)  +
+  ylab("\u03B2") +
+  xlab("Time") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(e) Fast Sine")
+
+
+f <- ggplot(data.frame(x = 0:200), aes(x)) +
+  stat_function(
+    fun = function (x) (sin((2/5) * base::pi * x) + sin((2/200) * base::pi * x)) / 4 + 0.5,
+    n = 1000)  +
+  ylab("\u03B2") +
+  xlab("Time") +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())  +
+  ggtitle("(f) Fast + Slow Sine")
+
+g <- ggplot(data.frame(x = 0:1825, y = rep(0, 1826)), aes(x,y)) +
+  geom_line() +
+  ylim(0,1) +
+  theme_classic() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  ggtitle("(g) Constant Zero")
+
+parameter_type_plot <- wrap_plots(a, b, c, d, e, f, g)
+
+ggsave("parameter_type_plot.png", parameter_type_plot, dpi = 350)
